@@ -7,7 +7,7 @@ describe('NavBar', () => {
   test('renders logo and links', () => {
     render(
       <BrowserRouter>
-        <NavBar />
+        <NavBar onSearch={() => {}} />
       </BrowserRouter>
     );
 
@@ -18,7 +18,7 @@ describe('NavBar', () => {
   test('toggles mobile menu', () => {
     render(
       <BrowserRouter>
-        <NavBar />
+        <NavBar onSearch={() => {}} />
       </BrowserRouter>
     );
 
@@ -28,5 +28,20 @@ describe('NavBar', () => {
 
     fireEvent.click(hamburger);
     expect(screen.queryByTestId('mobile-menu')).not.toBeInTheDocument();
+  });
+
+  test('calls onSearch when submitting query', () => {
+    const onSearchMock = jest.fn();
+    render(
+      <BrowserRouter>
+        <NavBar onSearch={onSearchMock} />
+      </BrowserRouter>
+    );
+
+    const input = screen.getByPlaceholderText(/search posts/i);
+    fireEvent.change(input, { target: { value: 'react' } });
+    fireEvent.submit(input);
+
+    expect(onSearchMock).toHaveBeenCalledWith('react');
   });
 });

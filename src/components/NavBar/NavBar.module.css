@@ -27,6 +27,10 @@
   font-size: 18px;
 }
 
+.search {
+  margin-left: auto;
+}
+
 .hamburger {
   display: none;
   background: none;
@@ -61,5 +65,9 @@
   }
   .hamburger {
     display: block;
+  }
+  .search {
+    flex: 1 1 auto;
+    margin-left: 0;
   }
 }
