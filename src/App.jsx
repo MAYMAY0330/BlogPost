@@ -10,6 +10,8 @@ import {
 import BlogPostList from "./components/BlogPostList/BlogPostList";
 import BlogPostDetail from "./components/BlogPostDetail/BlogPostDetail";
 import BlogPostForm from "./components/BlogPostForm/BlogPostForm";
+import DeleteButton from "./components/DeleteButton/DeleteButton";
+import ConfirmationDialog from "./components/ConfirmationDialog/ConfirmationDialog";
 
 // Sample initial posts
 const initialPosts = [
@@ -111,36 +113,53 @@ const PostsPage = ({ posts }) => {
 };
 
 // Single post detail page
-const PostPage = ({ posts }) => {
+const PostPage = ({ posts, onDelete }) => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [isDialogOpen, setDialogOpen] = useState(false);
   const post = posts.find((p) => p.id === id);
 
   if (!post) return <p>Blog post not found.</p>;
 
+  const handleConfirmDelete = () => {
+    onDelete(id);
+    setDialogOpen(false);
+    navigate('/posts');
+  };
+
   return (
-    <div style={{ position: "relative", maxWidth: "800px", margin: "0 auto" }}>
+    <div style={{ position: 'relative', maxWidth: '800px', margin: '0 auto' }}>
       <button
         onClick={() => navigate(`/posts/${id}/edit`)}
         style={{
-          position: "absolute",
-          top: "10px",
-          right: "10px",
-          padding: "10px 15px",
-          fontSize: "14px",
-          marginRight: "40px",
-          marginTop: "20px",
-          backgroundColor: "#007BFF",
-          color: "#fff",
-          border: "none",
-          borderRadius: "4px",
-          cursor: "pointer",
+          position: 'absolute',
+          top: '10px',
+          right: '10px',
+          padding: '10px 15px',
+          fontSize: '14px',
+          marginRight: '40px',
+          marginTop: '20px',
+          backgroundColor: '#007BFF',
+          color: '#fff',
+          border: 'none',
+          borderRadius: '4px',
+          cursor: 'pointer',
         }}
       >
         Edit Post
       </button>
 
+      <div style={{ position: 'absolute', top: '10px', left: '10px' }}>
+        <DeleteButton onClick={() => setDialogOpen(true)} />
+      </div>
+
       <BlogPostDetail {...post} />
+
+      <ConfirmationDialog
+        isOpen={isDialogOpen}
+        onClose={() => setDialogOpen(false)}
+        onConfirm={handleConfirmDelete}
+      />
     </div>
   );
 };
@@ -196,6 +215,10 @@ const App = () => {
     setPosts(updatedPosts);
   };
 
+  const handleDeletePost = (id) => {
+    setPosts(posts.filter((p) => p.id !== id));
+  };
+
   return (
     <Router>
       <div>
@@ -203,7 +226,7 @@ const App = () => {
         <Routes>
           <Route path="/posts" element={<PostsPage posts={posts} />} />
           <Route path="/posts/new" element={<CreatePost onCreate={handleCreatePost} />} />
-          <Route path="/posts/:id" element={<PostPage posts={posts} />} />
+          <Route path="/posts/:id" element={<PostPage posts={posts} onDelete={handleDeletePost} />} />
           <Route path="/posts/:id/edit" element={<EditPost posts={posts} onUpdate={handleUpdatePost} />} />
           <Route path="*" element={<Navigate to="/posts" replace />} />
         </Routes>
