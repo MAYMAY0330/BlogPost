@@ -13,6 +13,8 @@ import BlogPostForm from "./components/BlogPostForm/BlogPostForm";
 import DeleteButton from "./components/DeleteButton/DeleteButton";
 import ConfirmationDialog from "./components/ConfirmationDialog/ConfirmationDialog";
 import Layout from "./components/Layout/Layout";
+import CommentList from "./components/CommentList/CommentList";
+import CommentForm from "./components/CommentForm/CommentForm";
 
 // Sample initial posts
 const initialPosts = [
@@ -119,6 +121,7 @@ const PostPage = ({ posts, onDelete }) => {
   const navigate = useNavigate();
   const [isDialogOpen, setDialogOpen] = useState(false);
   const post = posts.find((p) => p.id === id);
+  const [comments, setComments] = useState(post?.comments || []);
 
   if (!post) return <p>Blog post not found.</p>;
 
@@ -155,6 +158,9 @@ const PostPage = ({ posts, onDelete }) => {
       </div>
 
       <BlogPostDetail {...post} />
+
+      <CommentList comments={comments} />
+      <CommentForm onSubmit={(c) => setComments([...comments, c])} />
 
       <ConfirmationDialog
         isOpen={isDialogOpen}
