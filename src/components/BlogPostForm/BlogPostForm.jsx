@@ -36,9 +36,12 @@ const BlogPostForm = ({ post = {}, onSubmit }) => {
       setIsSubmitting(true);
       await onSubmit({ title, content, author, date });
       setIsSubmitting(false);
-      setSuccessMessage("Post created successfully!");
+      const isEdit = post && Object.keys(post).length > 0;
+      setSuccessMessage(
+        isEdit ? "Post updated successfully!" : "Post created successfully!"
+      );
 
-      if (!post || Object.keys(post).length === 0) {
+      if (!isEdit) {
         setTitle("");
         setContent("");
         setAuthor("");
