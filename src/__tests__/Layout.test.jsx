@@ -9,7 +9,7 @@ describe('Layout', () => {
   test('renders children with header and footer', () => {
     render(
       <BrowserRouter>
-        <Layout>
+        <Layout onSearch={() => {}}>
           <Sample />
         </Layout>
       </BrowserRouter>

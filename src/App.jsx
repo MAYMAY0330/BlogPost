@@ -110,7 +110,11 @@ const PostsPage = ({ posts }) => {
         </button>
       </div>
 
-      <BlogPostList posts={posts} onSelect={(id) => navigate(`/posts/${id}`)} />
+      {posts.length === 0 ? (
+        <p>No posts found.</p>
+      ) : (
+        <BlogPostList posts={posts} onSelect={(id) => navigate(`/posts/${id}`)} />
+      )}
     </div>
   );
 };
@@ -202,6 +206,7 @@ const EditPost = ({ posts, onUpdate }) => {
 // Main App component
 const App = () => {
   const [posts, setPosts] = useState(initialPosts);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleCreatePost = (newPost) => {
     const newId = (posts.length + 1).toString();
@@ -226,12 +231,22 @@ const App = () => {
     setPosts(posts.filter((p) => p.id !== id));
   };
 
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  };
+
+  const filteredPosts = posts.filter(
+    (post) =>
+      post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      stripHtml(post.content).toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <Router>
-      <Layout>
+      <Layout onSearch={handleSearch}>
         <Routes>
           <Route path="/" element={<Navigate to="/posts" replace />} />
-          <Route path="/posts" element={<PostsPage posts={posts} />} />
+          <Route path="/posts" element={<PostsPage posts={filteredPosts} />} />
           <Route path="/posts/new" element={<CreatePost onCreate={handleCreatePost} />} />
           <Route path="/posts/:id" element={<PostPage posts={posts} onDelete={handleDeletePost} />} />
           <Route path="/posts/:id/edit" element={<EditPost posts={posts} onUpdate={handleUpdatePost} />} />
