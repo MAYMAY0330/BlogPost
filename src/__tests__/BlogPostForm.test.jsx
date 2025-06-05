@@ -189,4 +189,24 @@ describe("BlogPostForm", () => {
       expect(screen.getByTestId("datepicker")).toHaveValue("2025-01-01");
     });
   });
+
+  it("shows update success message when editing a post", async () => {
+    const onSubmit = jest.fn();
+    const existingPost = {
+      title: "Existing",
+      content: "Existing content",
+      author: "Author",
+      date: "2024-01-01",
+    };
+    render(<BlogPostForm post={existingPost} onSubmit={onSubmit} />);
+
+    fillForm();
+    fireEvent.click(screen.getByRole("button"));
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(/Post updated successfully/i)
+      ).toBeInTheDocument();
+    });
+  });
 });
