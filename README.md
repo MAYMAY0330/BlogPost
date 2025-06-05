@@ -14,6 +14,10 @@ Add a search bar to the blogging platform, allowing users to search for posts by
 *Description:*
 Participate in code reviews and collaborate with peers to improve the quality of the blogging platform’s codebase, focusing on the newly added features.
 
+# Challenge 5: Implement Responsive Navigation and Layout
+*Description:*
+Create a reusable navigation bar and page layout so the app works well on both desktop and mobile devices. The navigation includes a logo, links, and a mobile menu toggle. The layout renders the navigation at the top, content in the middle, and a footer at the bottom.
+
 ## Steps to Run
 1. Visit the official Node.js website: https://nodejs.org
 2. Download the installer for your operating system (Windows, macOS, Linux) and follow the installation steps

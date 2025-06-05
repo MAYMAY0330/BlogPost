@@ -12,6 +12,7 @@ import BlogPostDetail from "./components/BlogPostDetail/BlogPostDetail";
 import BlogPostForm from "./components/BlogPostForm/BlogPostForm";
 import DeleteButton from "./components/DeleteButton/DeleteButton";
 import ConfirmationDialog from "./components/ConfirmationDialog/ConfirmationDialog";
+import Layout from "./components/Layout/Layout";
 
 // Sample initial posts
 const initialPosts = [
@@ -221,16 +222,16 @@ const App = () => {
 
   return (
     <Router>
-      <div>
-        <h1>Blog Posts</h1>
+      <Layout>
         <Routes>
+          <Route path="/" element={<Navigate to="/posts" replace />} />
           <Route path="/posts" element={<PostsPage posts={posts} />} />
           <Route path="/posts/new" element={<CreatePost onCreate={handleCreatePost} />} />
           <Route path="/posts/:id" element={<PostPage posts={posts} onDelete={handleDeletePost} />} />
           <Route path="/posts/:id/edit" element={<EditPost posts={posts} onUpdate={handleUpdatePost} />} />
           <Route path="*" element={<Navigate to="/posts" replace />} />
         </Routes>
-      </div>
+      </Layout>
     </Router>
   );
 };
