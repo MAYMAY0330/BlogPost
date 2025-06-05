@@ -1,0 +1,51 @@
+.comment {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.body {
+  flex: 1;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 5px;
+  font-size: 14px;
+}
+
+.name {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.date {
+  color: #666;
+}
+
+.text {
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .comment {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .avatar {
+    margin-bottom: 10px;
+  }
+
+  .meta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
